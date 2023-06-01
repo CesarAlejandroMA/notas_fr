@@ -29,14 +29,31 @@
 
                 </tbody>
             </table>
+            <section>
+                <button id="btnRegistrar">Registrar Estudiante</button>
+            </section><br>
         </section>
         <section>
-            <button id="btnRegistrarEst">Registrar</button>
+            <h3 id="titulo"></h3>
+            <form>
+                <label>
+                    <span>Código: </span>
+                    <input type="number" name="codigo" id="codigoId" required>
+                </label><br><br>
+                <label>
+                    <span>Nombre: </span>
+                    <input type="text" maxlength="150" name="nombres" id="nombresId" required>
+                </label><br><br>
+                <label>
+                    <span>Apellido: </span>
+                    <input type="text" maxlength="200" name="apellidos" id="apellidosId" required>
+                </label><br><br>
+                <button type="button" id="btnGuardar">Guardar</button>
+            </form>
         </section>
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="js/estudiantes.js"></script>
-    <script src="js/formulario.js"></script>
 </body>
 
 </html>
