@@ -1,7 +1,7 @@
 window.onload = function(){
     var nombres = localStorage.getItem("nombres");
     var apellidos = localStorage.getItem("apellidos");
-    var codigo = localStorage.getItem("codigo");
+    var codigoEstudiante = localStorage.getItem("codigo");
 
     document.getElementById('nombreText').innerText = "Nombre: " + nombres;
     document.getElementById('apellidoText').innerText = "Apellido: " + apellidos;
@@ -12,7 +12,7 @@ window.onload = function(){
     function cargarDatos(){
         $.ajax({
             method: 'get',
-            url: 'http://localhost:8000/verActividad/' + codigo,
+            url: 'http://localhost:8000/verActividad/' + codigoEstudiante,
         }).done((response)=>{
     
             const dataJson = JSON.parse(response);
@@ -52,16 +52,38 @@ window.onload = function(){
         inputsContainerAct.style.display = 'block';
         inputs[0].focus;
 
-        // var ocultar = document.getElementById('codigoId');
-        // ocultar.readOnly = false;
-
         document.getElementById('tituloAct').innerText = 'Registrar Actividad';
         condicionGuardar = 1;
         clean();
 
     });
 
+    //PROGRAMACIÓN BOTÓN GUARDAR
     
+    $(document).on("click", "#btnGuardarAct", function(){
+
+        var descripcion = document.getElementById('descripcionId');
+        var nota = document.getElementById('notaId');
+
+        if(condicionGuardar == 1){
+            $.ajax({
+                url: 'http://localhost:8000/crearActividad',
+                method: 'post',
+                data: {
+                    descripcion: descripcion.value,
+                    nota: nota.value,
+                    codigoEstudiante: codigoEstudiante
+                }
+            }).done(response => {
+                const dataJson = JSON.parse(response);
+                const msg = dataJson.data;
+                alert(msg)
+                cargarDatos();
+                inputsContainerAct.style.display = 'none';
+            });
+        }
+
+    });
 
 }
 
