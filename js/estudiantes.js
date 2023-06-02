@@ -71,7 +71,7 @@ $(document).ready(function(){
         document.getElementById('titulo').innerText = 'Modificar Estudiante';
         condicionGuardar = 2;
 
-        codigoBuscar = $(this).data("codigo"); //Guarda en una variable el id recogido en las propiedades del boton Modificar
+        codigoBuscar = $(this).data("codigo"); //Guarda en una variable el codigo recogido en las propiedades del boton Modificar
         var nombres = $(this).closest("tr").find("td:eq(1)").text(); //TR = Fila, TD = celda
         var apellidos = $(this).closest("tr").find("td:eq(2)").text();
 

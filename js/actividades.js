@@ -26,10 +26,10 @@ window.onload = function(){
                 html+='      <td>'+ actividad.descripcion +'</td>';
                 html+='      <td>'+ actividad.nota +'</td>';
                 html+='      <td>';
-                html+='          <button class="btnModificar" data-id="' + actividad.id + '" >Modificar</button>';
+                html+='          <button class="btnModificarAct" data-id="' + actividad.id + '" >Modificar</button>';
                 html+='      </td>';
                 html+='      <td>';
-                html+='          <button class="btnEliminar" data-id="' + actividad.id + '" >Eliminar</button>';
+                html+='          <button class="btnEliminarAct" data-id="' + actividad.id + '" >Eliminar</button>';
                 html+='      </td>';
                 html+='</tr>';
             });
@@ -58,6 +58,26 @@ window.onload = function(){
 
     });
 
+    //MODIFICAR ACTIVIDAD
+
+    $(document).on("click", ".btnModificarAct", function(){
+
+        //Mostrar el formulario al hacer clic en Registrar
+        var formulario = document.getElementById('inputsContainerAct');
+        var inputs = formulario.getElementsByTagName('input');
+        inputsContainerAct.style.display = 'block';
+        inputs[0].focus;
+
+        condicionGuardar = 2;
+        id = $(this).data("id"); //Guarda en una variable el id recogido en las propiedades del boton Modificar
+        var descripcion = $(this).closest("tr").find("td:eq(1)").text(); //TR = Fila, TD = celda
+        var nota = $(this).closest("tr").find("td:eq(2)").text();
+
+        $("#descripcionId").val(descripcion);
+        $("#notaId").val(nota);
+
+    });
+
     //PROGRAMACIÓN BOTÓN GUARDAR
     
     $(document).on("click", "#btnGuardarAct", function(){
@@ -78,6 +98,21 @@ window.onload = function(){
                 const dataJson = JSON.parse(response);
                 const msg = dataJson.data;
                 alert(msg)
+                cargarDatos();
+                inputsContainerAct.style.display = 'none';
+            });
+        }else if(condicionGuardar == 2){
+            $.ajax({
+                url: 'http://localhost:8000/modificarActividad/' + id,
+                method: 'put',
+                data:{  
+                        descripcion: descripcion.value,
+                        nota: nota.value
+                     }
+            }).done(response=>{
+                const dataJson = JSON.parse(response);
+                const msg = dataJson.data; 
+                alert(msg);
                 cargarDatos();
                 inputsContainerAct.style.display = 'none';
             });
