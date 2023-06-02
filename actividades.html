@@ -5,24 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudiantes</title>
+    <title>Actividades</title>
     <link rel="stylesheet" type="text/css" href="css/estilos.css">
 </head>
 
 <body>
     <header>
-        <h1>Estudiantes</h1>
+        <h1>Actividades</h1>
     </header>
     <main>
+        <h3 id="nombreText"></h3>
+        <h3 id="apellidoText"></h3>
         <section>
-            <table id="estudiantesTb">
+            <table id="actividadesTb">
                 <thead>
                     <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th></th><!-- Los tres espacios son para el boton modificar, eliminar y notas -->
-                        <th></th>
+                        <th>ID</th>
+                        <th>Descripción</th>
+                        <th>Nota</th>
+                        <th></th><!-- Los dos espacios son para el boton modificar y eliminar-->
                         <th></th>
                     </tr>
                 </thead>
@@ -31,30 +32,28 @@
                 </tbody>
             </table><br>
             <section>
-                <button id="btnRegistrar">Registrar Estudiante</button>
+                <button id="btnRegistrarAct">Registrar Actividad</button>
             </section><br>
         </section>
-        <section id="inputsContainer">
-            <h3 id="titulo"></h3>
+        <section id="inputsContainerAct">
+            <h3 id="tituloAct"></h3>
             <form>
                 <label>
-                    <span>Código: </span>
-                    <input type="number" name="codigo" id="codigoId" required>
+                    <span>Descripción: </span>
+                    <input type="text" name="descripcion" id="descripcionId" required>
                 </label><br><br>
                 <label>
-                    <span>Nombre: </span>
-                    <input type="text" maxlength="150" name="nombres" id="nombresId" required>
+                    <span>Nota: </span>
+                    <input type="number" maxlength="200" name="nota" id="notaId" required>
                 </label><br><br>
-                <label>
-                    <span>Apellido: </span>
-                    <input type="text" maxlength="200" name="apellidos" id="apellidosId" required>
-                </label><br><br>
-                <button type="button" id="btnGuardar">Guardar</button>
+                <button type="button" id="btnGuardarAct">Guardar</button>
             </form>
         </section>
+        <br><br>
+        <button id="btnRegresar">Regresar</button>
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="js/estudiantes.js"></script>
+    <script src="js/actividades.js"></script>
 </body>
 
 </html>

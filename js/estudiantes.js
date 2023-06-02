@@ -26,7 +26,7 @@ $(document).ready(function(){
                 html+='          <button class="btnEliminar" data-codigo="' + estudiante.codigo + '" >Eliminar</button>';
                 html+='      </td>';
                 html+='      <td>';
-                html+='          <button class="btnNotas">Notas</button>';
+                html+='          <button class="btnNotas" data-codigo="' + estudiante.codigo + '">Notas</button>';
                 html+='      </td>';
                 html+='</tr>';
             });
@@ -158,14 +158,27 @@ $(document).ready(function(){
 
     //LIMPIAR LOS INPUT
     function clean(){
-        let codigo = "";
-        let nombres= "";
-        let apellidos = "";
+        let vacio = "";
 
-        document.getElementById("codigoId").value = codigo;
-        document.getElementById("nombresId").value = nombres;
-        document.getElementById("apellidosId").value = apellidos;
-
+        document.getElementById("codigoId").value = vacio;
+        document.getElementById("nombresId").value = vacio;
+        document.getElementById("apellidosId").value = vacio;
     };
+
+    //CONFIGURAR BOTÓN NOTAS PARA DIRIGIRSE A OTRO HTML
+
+    $(document).on("click", ".btnNotas", function(){
+
+        codigoBuscar = $(this).data("codigo");
+        var nombres = $(this).closest("tr").find("td:eq(1)").text();
+        var apellidos = $(this).closest("tr").find("td:eq(2)").text();
+
+        localStorage.setItem("codigo", codigoBuscar);
+        localStorage.setItem("nombres", nombres);
+        localStorage.setItem("apellidos", apellidos);
+
+        window.location.href = 'actividades.html';
+
+      });
 
 });
