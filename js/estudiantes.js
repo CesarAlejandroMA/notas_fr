@@ -119,39 +119,47 @@ $(document).ready(function(){
         let nombre = document.getElementById('nombresId');
         let apellido = document.getElementById('apellidosId');
 
-        if(condicionGuardar == 1){
-            $.ajax({
-                url: 'http://localhost:8000/crearEstudiantes',
-                method: 'post',
-                data: {
-                    codigo: codigo.value,
-                    nombres: nombre.value,
-                    apellidos: apellido.value
-                }
-            }).done(response => {
-                const dataJson = JSON.parse(response);
-                const msg = dataJson.data;
-                alert(msg)
-                cargarDatos();
-                inputsContainer.style.display = 'none';
+        if(codigo.value.trim() === '' || nombre.value.trim() === '' || apellido.value.trim() === ''){
+            alert ("No pueden haber campos vacios");
+            location.reload();
+            return
+        }else{
 
-            });
+            if(condicionGuardar == 1){
+                $.ajax({
+                    url: 'http://localhost:8000/crearEstudiantes',
+                    method: 'post',
+                    data: {
+                        codigo: codigo.value,
+                        nombres: nombre.value,
+                        apellidos: apellido.value
+                    }
+                }).done(response => {
+                    const dataJson = JSON.parse(response);
+                    const msg = dataJson.data;
+                    alert(msg)
+                    cargarDatos();
+                    inputsContainer.style.display = 'none';
+    
+                });
+    
+            }else if(condicionGuardar == 2){
+                $.ajax({
+                    url: 'http://localhost:8000/modificarEstudiantes/' + codigoBuscar,
+                    method: 'put',
+                    data:{  
+                             nombres: nombre.value,
+                             apellidos: apellido.value
+                         }
+                }).done(response=>{
+                    const dataJson = JSON.parse(response);
+                    const msg = dataJson.data; 
+                    alert(msg);
+                    cargarDatos();
+                    inputsContainer.style.display = 'none';
+                });
+            }
 
-        }else if(condicionGuardar == 2){
-            $.ajax({
-                url: 'http://localhost:8000/modificarEstudiantes/' + codigoBuscar,
-                method: 'put',
-                data:{  
-                         nombres: nombre.value,
-                         apellidos: apellido.value
-                     }
-            }).done(response=>{
-                const dataJson = JSON.parse(response);
-                const msg = dataJson.data; 
-                alert(msg);
-                cargarDatos();
-                inputsContainer.style.display = 'none';
-            });
         }
 
     }

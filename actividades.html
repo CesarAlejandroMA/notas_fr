@@ -31,6 +31,7 @@
 
                 </tbody>
             </table><br>
+            <p id="promedio"></p>
             <section>
                 <button id="btnRegistrarAct">Registrar Actividad</button>
             </section><br>
@@ -44,7 +45,7 @@
                 </label><br><br>
                 <label>
                     <span>Nota: </span>
-                    <input type="number" maxlength="200" name="nota" id="notaId" required>
+                    <input type="number" maxlength="200" name="nota" id="notaId" min="0" max="5" step="0.01" required>
                 </label><br><br>
                 <button type="button" id="btnGuardarAct">Guardar</button>
             </form>

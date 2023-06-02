@@ -10,6 +10,10 @@ window.onload = function(){
     let id = null;
 
     function cargarDatos(){
+        var calcularPromedio = 0;
+        var contadorNotas = 0;
+        var sumaNotas = 0;
+        var texto = document.getElementById('promedio');
         $.ajax({
             method: 'get',
             url: 'http://localhost:8000/verActividad/' + codigoEstudiante,
@@ -32,9 +36,37 @@ window.onload = function(){
                 html+='          <button class="btnEliminarAct" data-id="' + actividad.id + '" >Eliminar</button>';
                 html+='      </td>';
                 html+='</tr>';
+
+                contadorNotas = contadorNotas + 1;
+                sumaNotas = parseFloat(sumaNotas) + parseFloat(actividad.nota);
+
             });
             tbody.innerHTML = html;
-    
+
+            if(contadorNotas == 0){
+                texto.innerHTML = "Promedio: No se han registrado actividades"
+            }else{
+                calcularPromedio = (sumaNotas / contadorNotas);
+
+                if(Number.isInteger(calcularPromedio)){
+                    
+                    if(calcularPromedio >= 3){
+                        texto.innerHTML = "Felicitaciones " + nombres + "," + '<label style="color: green"> el promedio es de: ' + calcularPromedio.toFixed(0) + '<label style="color: black"> aprobaste ';
+                    }else if(calcularPromedio < 3){
+                        texto.innerHTML = "Lo siento " + nombres + "," + '<label style="color: red"> el promedio es de: ' + calcularPromedio.toFixed(0) + '<label style="color: black"> reprobaste ';
+                    }
+
+                }else{
+
+                    if(calcularPromedio >= 3){
+                        texto.innerHTML = "Felicitaciones " + nombres + "," + '<label style="color: green"> el promedio es de: ' + calcularPromedio.toFixed(2) + '<label style="color: black"> aprobaste ';
+                    }else if(calcularPromedio < 3){
+                        texto.innerHTML = "Lo siento " + nombres + "," + '<label style="color: red"> el promedio es de: ' + calcularPromedio.toFixed(2) + '<label style="color: black"> reprobaste ';
+                    }
+                }
+
+            }
+
         }).fail((error)=>{
             console.error(error);
         });
@@ -108,43 +140,50 @@ window.onload = function(){
         var descripcion = document.getElementById('descripcionId');
         var nota = document.getElementById('notaId');
 
-        if(condicionGuardar == 1){
-            $.ajax({
-                url: 'http://localhost:8000/crearActividad',
-                method: 'post',
-                data: {
-                    descripcion: descripcion.value,
-                    nota: nota.value,
-                    codigoEstudiante: codigoEstudiante
-                }
-            }).done(response => {
-                const dataJson = JSON.parse(response);
-                const msg = dataJson.data;
-                alert(msg)
-                cargarDatos();
-                inputsContainerAct.style.display = 'none';
-            });
-        }else if(condicionGuardar == 2){
-            $.ajax({
-                url: 'http://localhost:8000/modificarActividad/' + id,
-                method: 'put',
-                data:{  
+        if(descripcion.value.trim() === '' || nota.value.trim() === ''){
+            alert ("No pueden haber campos vacios");
+            location.reload();
+            return
+        }else{
+
+            if(condicionGuardar == 1){
+                $.ajax({
+                    url: 'http://localhost:8000/crearActividad',
+                    method: 'post',
+                    data: {
                         descripcion: descripcion.value,
-                        nota: nota.value
-                     }
-            }).done(response=>{
-                const dataJson = JSON.parse(response);
-                const msg = dataJson.data; 
-                alert(msg);
-                cargarDatos();
-                inputsContainerAct.style.display = 'none';
-            });
+                        nota: nota.value,
+                        codigoEstudiante: codigoEstudiante
+                    }
+                }).done(response => {
+                    const dataJson = JSON.parse(response);
+                    const msg = dataJson.data;
+                    alert(msg)
+                    cargarDatos();
+                    inputsContainerAct.style.display = 'none';
+                });
+            }else if(condicionGuardar == 2){
+                $.ajax({
+                    url: 'http://localhost:8000/modificarActividad/' + id,
+                    method: 'put',
+                    data:{  
+                            descripcion: descripcion.value,
+                            nota: nota.value
+                         }
+                }).done(response=>{
+                    const dataJson = JSON.parse(response);
+                    const msg = dataJson.data; 
+                    alert(msg);
+                    cargarDatos();
+                    inputsContainerAct.style.display = 'none';
+                });
+            }
+
         }
 
     });
 
 }
-
 
 $(document).on("click", "#btnRegresar", function(){
 
@@ -158,4 +197,3 @@ function clean(){
     document.getElementById("descripcionId").value = vacio;
     document.getElementById("notaId").value = vacio;
 };
-
