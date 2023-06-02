@@ -1,9 +1,12 @@
 $(document).ready(function(){
 
+    let condicionGuardar = 0;
+    let codigoBuscar = null;
+
     function cargarDatos(){
         $.ajax({
             method: 'get',
-            url: 'http://localhost:8000/estudiantes'
+            url: 'http://localhost:8000/verEstudiantes'
         }).done((response)=>{
     
             const dataJson = JSON.parse(response);
@@ -17,10 +20,10 @@ $(document).ready(function(){
                 html+='      <td>'+ estudiante.nombres+'</td>';
                 html+='      <td>'+ estudiante.apellidos+'</td>';
                 html+='      <td>';
-                html+='          <button class="btnModificar">Modificar</button>';
+                html+='          <button class="btnModificar" data-codigo="' + estudiante.codigo + '" >Modificar</button>';
                 html+='      </td>';
                 html+='      <td>';
-                html+='          <button class="btnEliminar">Eliminar</button>';
+                html+='          <button class="btnEliminar" data-codigo="' + estudiante.codigo + '" >Eliminar</button>';
                 html+='      </td>';
                 html+='      <td>';
                 html+='          <button class="btnNotas">Notas</button>';
@@ -36,17 +39,75 @@ $(document).ready(function(){
 
     cargarDatos();
 
-    let condicionGuardar = 0;
-
     //REGISTRAR ESTUDIANTES
 
     $(document).on("click", "#btnRegistrar", function(){
+
+        //Mostrar el formulario al hacer clic en Registrar
+        var formulario = document.getElementById('inputsContainer');
+        var inputs = formulario.getElementsByTagName('input');
+        inputsContainer.style.display = 'block';
+        inputs[0].focus;
+
+        var ocultar = document.getElementById('codigoId');
+        ocultar.readOnly = false;
 
         document.getElementById('titulo').innerText = 'Registrar Estudiante';
         condicionGuardar = 1;
         clean();
 
     });
+
+    //MODIFICAR ESTUDIANTES
+
+    $(document).on("click", ".btnModificar", function(){
+
+        //Mostrar el formulario al hacer clic en Registrar
+        var formulario = document.getElementById('inputsContainer');
+        var inputs = formulario.getElementsByTagName('input');
+        inputsContainer.style.display = 'block';
+        inputs[0].focus;
+    
+        document.getElementById('titulo').innerText = 'Modificar Estudiante';
+        condicionGuardar = 2;
+
+        codigoBuscar = $(this).data("codigo"); //Guarda en una variable el id recogido en las propiedades del boton Modificar
+        var nombres = $(this).closest("tr").find("td:eq(1)").text(); //TR = Fila, TD = celda
+        var apellidos = $(this).closest("tr").find("td:eq(2)").text();
+
+        //Mostrar en los input los registros seleccionados
+        $("#codigoId").val(codigoBuscar);
+        $("#nombresId").val(nombres);
+        $("#apellidosId").val(apellidos);
+
+        var ocultar = document.getElementById('codigoId');
+        ocultar.readOnly = true;
+    
+        });
+
+
+    //ELIMINAR ESTUDIANTES
+
+    $(document).on("click", ".btnEliminar", function(){
+
+        codigoBuscar = $(this).data("codigo");
+
+        $.ajax({
+            url: 'http://localhost:8000/eliminarEstudiantes/' + codigoBuscar,
+            method: 'delete',
+        }).done(response=>{
+            const dataJson = JSON.parse(response);
+            const msg = dataJson.data; 
+            alert(msg);
+            cargarDatos();
+
+        }).fail(error=>{
+            const dataJson = JSON.parse(response);
+            const msg = dataJson.data; 
+            alert(msg);
+        });
+    
+        });
 
     //PROGRAMACIÓN DEL BOTÓN GUARDAR
 
@@ -60,7 +121,7 @@ $(document).ready(function(){
 
         if(condicionGuardar == 1){
             $.ajax({
-                url: 'http://localhost:8000/estudiantes',
+                url: 'http://localhost:8000/crearEstudiantes',
                 method: 'post',
                 data: {
                     codigo: codigo.value,
@@ -72,6 +133,24 @@ $(document).ready(function(){
                 const msg = dataJson.data;
                 alert(msg)
                 cargarDatos();
+                inputsContainer.style.display = 'none';
+
+            });
+
+        }else if(condicionGuardar == 2){
+            $.ajax({
+                url: 'http://localhost:8000/modificarEstudiantes/' + codigoBuscar,
+                method: 'put',
+                data:{  
+                         nombres: nombre.value,
+                         apellidos: apellido.value
+                     }
+            }).done(response=>{
+                const dataJson = JSON.parse(response);
+                const msg = dataJson.data; 
+                alert(msg);
+                cargarDatos();
+                inputsContainer.style.display = 'none';
             });
         }
 
