@@ -78,6 +78,29 @@ window.onload = function(){
 
     });
 
+    //ELIMINAR ACTIVIDAD
+
+    $(document).on("click", ".btnEliminarAct", function(){
+
+        id = $(this).data("id");
+
+        $.ajax({
+            url: 'http://localhost:8000/eliminarActividad/' + id,
+            method: 'delete',
+        }).done(response=>{
+            const dataJson = JSON.parse(response);
+            const msg = dataJson.data; 
+            alert(msg);
+            cargarDatos();
+
+        }).fail(error=>{
+            const dataJson = JSON.parse(response);
+            const msg = dataJson.data; 
+            alert(msg);
+        });
+    
+        });
+
     //PROGRAMACIÓN BOTÓN GUARDAR
     
     $(document).on("click", "#btnGuardarAct", function(){
