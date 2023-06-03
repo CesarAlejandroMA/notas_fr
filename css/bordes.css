@@ -1,0 +1,88 @@
+body{
+    background-color: #1F2739;
+}
+
+h1{
+    color: #175e63;
+}
+
+h3{
+    color: #175e63;
+}
+
+.table-bordered {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid black;
+}
+
+thead{
+    background: rgba(32, 32, 32, 0.9);
+}
+
+.table-encabezado{
+    color: rgb(255, 255, 255);
+}
+
+.border-input{
+    border: 1px solid rgb(60, 105, 126);
+}
+
+.table-content{
+    color: rgb(0, 0, 0);
+    background-color: #556179;
+}
+
+.btnModificar{
+    background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.btnEliminar{
+    background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.btnNotas{
+    background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.btnModificarAct{
+    background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.btnEliminarAct{
+    background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}

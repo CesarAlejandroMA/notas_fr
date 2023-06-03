@@ -30,7 +30,7 @@ window.onload = function(){
                 html+='      <td>' + actividad.id +'</td>';
                 html+='      <td>'+ actividad.descripcion +'</td>';
                 html+='      <td>'+ actividad.nota +'</td>';
-                html+='      <td>';
+                html+='      <td class="table-content">';
                 html+='          <button class="btnModificarAct" data-id="' + actividad.id + '" >Modificar</button>';
                 html+='      </td>';
                 html+='      <td>';
@@ -46,7 +46,7 @@ window.onload = function(){
 
             if(contadorNotas == 0){
                 titulo.innerHTML = "El estudiante no registra actividades"
-                texto.innerHTML = "Promedio: No se han registrado actividades"
+                texto.innerHTML = "<label style='color: white'>Promedio: No se han registrado actividades"
             }else{
                 titulo.innerHTML = "Actividades registradas"
                 calcularPromedio = (sumaNotas / contadorNotas);
@@ -54,17 +54,17 @@ window.onload = function(){
                 if(Number.isInteger(calcularPromedio)){
                     
                     if(calcularPromedio >= 3){
-                        texto.innerHTML = "Felicitaciones " + nombres + " " + apellidos +"," + '<label style="color: green"> el promedio es de: ' + calcularPromedio.toFixed(0) + '<label style="color: black"> aprobaste ';
+                        texto.innerHTML = "<label style='color: white'>Felicitaciones " + nombres + " " + apellidos +"," + '<label style="color: green"> el promedio es de: ' + calcularPromedio.toFixed(0) + '<label style="color: white"> aprobaste ';
                     }else if(calcularPromedio < 3){
-                        texto.innerHTML = "Lo siento " + nombres + " " + apellidos + "," + '<label style="color: red"> el promedio es de: ' + calcularPromedio.toFixed(0) + '<label style="color: black"> reprobaste ';
+                        texto.innerHTML = "<label style='color: white'>Lo siento " + nombres + " " + apellidos + "," + '<label style="color: red"> el promedio es de: ' + calcularPromedio.toFixed(0) + '<label style="color: white"> reprobaste ';
                     }
 
                 }else{
 
                     if(calcularPromedio >= 3){
-                        texto.innerHTML = "Felicitaciones " + nombres + " " + apellidos + "," + '<label style="color: green"> el promedio es de: ' + calcularPromedio.toFixed(2) + '<label style="color: black"> aprobaste ';
+                        texto.innerHTML = "<label style='color: white'>Felicitaciones " + nombres + " " + apellidos + "," + '<label style="color: green"> el promedio es de: ' + calcularPromedio.toFixed(2) + '<label style="color: white"> aprobaste ';
                     }else if(calcularPromedio < 3){
-                        texto.innerHTML = "Lo siento " + nombres + " " + apellidos + "," + '<label style="color: red"> el promedio es de: ' + calcularPromedio.toFixed(2) + '<label style="color: black"> reprobaste ';
+                        texto.innerHTML = "<label style='color: white'>Lo siento " + nombres + " " + apellidos + "," + '<label style="color: red"> el promedio es de: ' + calcularPromedio.toFixed(2) + '<label style="color: white"> reprobaste ';
                     }
                 }
 

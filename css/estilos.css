@@ -1,7 +1,50 @@
 #inputsContainer{
     display: none;
+    color: rgb(255, 255, 255);
 }
 
 #inputsContainerAct{
     display: none;
+    color: rgb(255, 255, 255);
+}
+
+#btnRegresar{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+#btnRegistrar{
+
+    background-color: #050d27;
+    border: 0px;
+    height: 30px;
+    width: 150px;
+    color: #ffffff;
+    border-radius: 15px;
+    cursor: pointer;
+}
+    
+#btnRegistrar:hover{ /*En un evento sirve para sombrear
+        cuando el cursor de pasa sobre el elemento seleccionado*/
+    background-color: #ffffff;
+    border: 1px solid #03185e;
+    color: #03185e;
+}
+
+#btnRegistrarAct{
+
+    background-color: #050d27;
+    border: 0px;
+    height: 30px;
+    width: 150px;
+    color: #ffffff;
+    border-radius: 15px;
+    cursor: pointer;
+}
+    
+#btnRegistrarAct:hover{
+    background-color: #ffffff;
+    border: 1px solid #03185e;
+    color: #03185e;
 }
