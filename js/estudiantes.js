@@ -4,6 +4,8 @@ $(document).ready(function(){
     let codigoBuscar = null;
 
     function cargarDatos(){
+        conteo = 0
+        var titulo = document.getElementById('validarTitulo');
         $.ajax({
             method: 'get',
             url: 'http://localhost:8000/verEstudiantes'
@@ -29,8 +31,15 @@ $(document).ready(function(){
                 html+='          <button class="btnNotas" data-codigo="' + estudiante.codigo + '">Notas</button>';
                 html+='      </td>';
                 html+='</tr>';
+                conteo ++;
             });
             tbody.innerHTML = html;
+
+            if(conteo == 0){
+                titulo.innerHTML = "No se registran estudiantes"
+            }else{
+                titulo.innerHTML = "Estudiantes registrados"
+            }
     
         }).fail((error)=>{
             console.error(error);
@@ -120,46 +129,52 @@ $(document).ready(function(){
         let apellido = document.getElementById('apellidosId');
 
         if(codigo.value.trim() === '' || nombre.value.trim() === '' || apellido.value.trim() === ''){
+
             alert ("No pueden haber campos vacios");
             location.reload();
             return
-        }else{
 
-            if(condicionGuardar == 1){
-                $.ajax({
-                    url: 'http://localhost:8000/crearEstudiantes',
-                    method: 'post',
-                    data: {
-                        codigo: codigo.value,
-                        nombres: nombre.value,
-                        apellidos: apellido.value
-                    }
-                }).done(response => {
-                    const dataJson = JSON.parse(response);
-                    const msg = dataJson.data;
-                    alert(msg)
-                    cargarDatos();
-                    inputsContainer.style.display = 'none';
-    
-                });
-    
-            }else if(condicionGuardar == 2){
-                $.ajax({
-                    url: 'http://localhost:8000/modificarEstudiantes/' + codigoBuscar,
-                    method: 'put',
-                    data:{  
-                             nombres: nombre.value,
-                             apellidos: apellido.value
-                         }
-                }).done(response=>{
-                    const dataJson = JSON.parse(response);
-                    const msg = dataJson.data; 
-                    alert(msg);
-                    cargarDatos();
-                    inputsContainer.style.display = 'none';
-                });
-            }
+        }else if(codigo.value <= 0){
 
+            alert ("El código no cumple con el formato");
+            location.reload();
+            return
+
+        }else if(condicionGuardar == 1){
+
+            $.ajax({
+                url: 'http://localhost:8000/crearEstudiantes',
+                method: 'post',
+                data: {
+                    codigo: codigo.value,
+                    nombres: nombre.value,
+                    apellidos: apellido.value
+                }
+            }).done(response => {
+                const dataJson = JSON.parse(response);
+                const msg = dataJson.data;
+                alert(msg)
+                cargarDatos();
+                inputsContainer.style.display = 'none';
+
+            });
+
+        }else if(condicionGuardar == 2){
+
+            $.ajax({
+                url: 'http://localhost:8000/modificarEstudiantes/' + codigoBuscar,
+                method: 'put',
+                data:{  
+                         nombres: nombre.value,
+                         apellidos: apellido.value
+                     }
+            }).done(response=>{
+                const dataJson = JSON.parse(response);
+                const msg = dataJson.data; 
+                alert(msg);
+                cargarDatos();
+                inputsContainer.style.display = 'none';
+            });
         }
 
     }

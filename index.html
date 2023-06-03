@@ -11,7 +11,7 @@
 
 <body>
     <header>
-        <h1>Estudiantes</h1>
+        <h1 id="validarTitulo"></h1>
     </header>
     <main>
         <section>
@@ -39,7 +39,7 @@
             <form>
                 <label>
                     <span>Código: </span>
-                    <input type="number" name="codigo" id="codigoId" required>
+                    <input type="number" name="codigo" id="codigoId" min="1" required>
                 </label><br><br>
                 <label>
                     <span>Nombre: </span>

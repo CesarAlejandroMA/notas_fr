@@ -14,6 +14,7 @@ window.onload = function(){
         var contadorNotas = 0;
         var sumaNotas = 0;
         var texto = document.getElementById('promedio');
+        var titulo = document.getElementById('validarTexto');
         $.ajax({
             method: 'get',
             url: 'http://localhost:8000/verActividad/' + codigoEstudiante,
@@ -44,24 +45,26 @@ window.onload = function(){
             tbody.innerHTML = html;
 
             if(contadorNotas == 0){
+                titulo.innerHTML = "El estudiante no registra actividades"
                 texto.innerHTML = "Promedio: No se han registrado actividades"
             }else{
+                titulo.innerHTML = "Actividades registradas"
                 calcularPromedio = (sumaNotas / contadorNotas);
 
                 if(Number.isInteger(calcularPromedio)){
                     
                     if(calcularPromedio >= 3){
-                        texto.innerHTML = "Felicitaciones " + nombres + "," + '<label style="color: green"> el promedio es de: ' + calcularPromedio.toFixed(0) + '<label style="color: black"> aprobaste ';
+                        texto.innerHTML = "Felicitaciones " + nombres + " " + apellidos +"," + '<label style="color: green"> el promedio es de: ' + calcularPromedio.toFixed(0) + '<label style="color: black"> aprobaste ';
                     }else if(calcularPromedio < 3){
-                        texto.innerHTML = "Lo siento " + nombres + "," + '<label style="color: red"> el promedio es de: ' + calcularPromedio.toFixed(0) + '<label style="color: black"> reprobaste ';
+                        texto.innerHTML = "Lo siento " + nombres + " " + apellidos + "," + '<label style="color: red"> el promedio es de: ' + calcularPromedio.toFixed(0) + '<label style="color: black"> reprobaste ';
                     }
 
                 }else{
 
                     if(calcularPromedio >= 3){
-                        texto.innerHTML = "Felicitaciones " + nombres + "," + '<label style="color: green"> el promedio es de: ' + calcularPromedio.toFixed(2) + '<label style="color: black"> aprobaste ';
+                        texto.innerHTML = "Felicitaciones " + nombres + " " + apellidos + "," + '<label style="color: green"> el promedio es de: ' + calcularPromedio.toFixed(2) + '<label style="color: black"> aprobaste ';
                     }else if(calcularPromedio < 3){
-                        texto.innerHTML = "Lo siento " + nombres + "," + '<label style="color: red"> el promedio es de: ' + calcularPromedio.toFixed(2) + '<label style="color: black"> reprobaste ';
+                        texto.innerHTML = "Lo siento " + nombres + " " + apellidos + "," + '<label style="color: red"> el promedio es de: ' + calcularPromedio.toFixed(2) + '<label style="color: black"> reprobaste ';
                     }
                 }
 
@@ -141,44 +144,51 @@ window.onload = function(){
         var nota = document.getElementById('notaId');
 
         if(descripcion.value.trim() === '' || nota.value.trim() === ''){
+
             alert ("No pueden haber campos vacios");
             location.reload();
             return
-        }else{
 
-            if(condicionGuardar == 1){
-                $.ajax({
-                    url: 'http://localhost:8000/crearActividad',
-                    method: 'post',
-                    data: {
+        }else if(nota.value < 0 || nota.value > 5){
+
+            alert ("La nota no cumple el formato");
+            location.reload();
+            return
+
+        } else if(condicionGuardar == 1){
+
+            $.ajax({
+                url: 'http://localhost:8000/crearActividad',
+                method: 'post',
+                data: {
+                    descripcion: descripcion.value,
+                    nota: nota.value,
+                    codigoEstudiante: codigoEstudiante
+                }
+            }).done(response => {
+                const dataJson = JSON.parse(response);
+                const msg = dataJson.data;
+                alert(msg)
+                cargarDatos();
+                inputsContainerAct.style.display = 'none';
+            });
+
+        }else if(condicionGuardar == 2){
+
+            $.ajax({
+                url: 'http://localhost:8000/modificarActividad/' + id,
+                method: 'put',
+                data:{  
                         descripcion: descripcion.value,
-                        nota: nota.value,
-                        codigoEstudiante: codigoEstudiante
-                    }
-                }).done(response => {
-                    const dataJson = JSON.parse(response);
-                    const msg = dataJson.data;
-                    alert(msg)
-                    cargarDatos();
-                    inputsContainerAct.style.display = 'none';
-                });
-            }else if(condicionGuardar == 2){
-                $.ajax({
-                    url: 'http://localhost:8000/modificarActividad/' + id,
-                    method: 'put',
-                    data:{  
-                            descripcion: descripcion.value,
-                            nota: nota.value
-                         }
-                }).done(response=>{
-                    const dataJson = JSON.parse(response);
-                    const msg = dataJson.data; 
-                    alert(msg);
-                    cargarDatos();
-                    inputsContainerAct.style.display = 'none';
-                });
-            }
-
+                        nota: nota.value
+                     }
+            }).done(response=>{
+                const dataJson = JSON.parse(response);
+                const msg = dataJson.data; 
+                alert(msg);
+                cargarDatos();
+                inputsContainerAct.style.display = 'none';
+            });
         }
 
     });
@@ -197,3 +207,4 @@ function clean(){
     document.getElementById("descripcionId").value = vacio;
     document.getElementById("notaId").value = vacio;
 };
+
